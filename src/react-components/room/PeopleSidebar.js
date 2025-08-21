@@ -118,7 +118,6 @@ export function PeopleSidebar({
       return a.hand_raised ? -1 : 1;
     });
   me && filteredPeople.unshift(me);
-  // fallback if AFRAME's injected window globals aren't present (eg testing environments)
   const store = window.APP?.store || { _preferences: { avatarVoiceLevels: {} } };
 
   function getToolTipDescription(isMuted) {

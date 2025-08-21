@@ -307,9 +307,6 @@ module.exports = async (env, argv) => {
         "hls.js": path.resolve(__dirname, "./node_modules/hls.js/dist/hls.js"),
         "url-toolkit": path.resolve(__dirname, "./node_modules/url-toolkit/src/url-toolkit.js"),
 
-        // Fix for pdfjs-dist v4 ES module imports
-        "process/browser": path.resolve(__dirname, "./node_modules/process/browser.js"),
-
         // TODO these aliases are reequired because `three` only "exports" stuff in examples/jsm
         "three/examples/js/libs/basis/basis_transcoder.js": basisTranscoderPath,
         "three/examples/js/libs/draco/gltf/draco_wasm_wrapper.js": dracoWasmWrapperPath,
