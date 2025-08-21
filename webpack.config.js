@@ -326,6 +326,9 @@ module.exports = async (env, argv) => {
         // Modern browsers have these APIs natively, no need for polyfills
         stream: false,
         path: false
+        // Modern browsers have these APIs natively, no need for polyfills
+        stream: false,
+        path: false
       },
       extensions: [".mjs", ".ts", ".tsx", ".js", ".jsx"]
     },
@@ -348,6 +351,7 @@ module.exports = async (env, argv) => {
       filename: "assets/js/[name]-[chunkhash].js",
       publicPath: process.env.BASE_ASSETS_PATH || ""
     },
+    target: ["web", "es2020"], // use es2020 for modern browsers as defined in browserslistrc
     target: ["web", "es2020"], // use es2020 for modern browsers as defined in browserslistrc
     devtool: argv.mode === "production" ? "source-map" : "inline-source-map",
     devServer: {
@@ -435,6 +439,22 @@ module.exports = async (env, argv) => {
     },
     module: {
       rules: [
+        // Force CommonJS handling for specific problematic modules - must be first rule
+        {
+          test: /\.js$/,
+          include: function (modulePath) {
+            // More comprehensive matching for CommonJS modules
+            return /node_modules[/\\](es-errors|side-channel|qs|jsonschema|url|punycode|querystring|has-symbols|function-bind|get-intrinsic|call-bind|define-properties|has-property-descriptors|gopd|object-inspect)/.test(
+              modulePath
+            );
+          },
+          type: "javascript/auto",
+          parser: {
+            requireEnsure: false,
+            requireInclude: false,
+            amd: false
+          }
+        },
         // Force CommonJS handling for specific problematic modules - must be first rule
         {
           test: /\.js$/,
