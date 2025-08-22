@@ -116,7 +116,7 @@
     "node-ensure": "0.0.0",
     "normalize.css": "^8.0.1",
     "path-browserify": "^1.0.1",
-    "pdfjs-dist": "^2.16.105",
+    "pdfjs-dist": "4.1.392",
     "phoenix": "github:MeirArani/phoenix-js#master",
     "postprocessing": "~6.34.3",
     "prop-types": "^15.7.2",
