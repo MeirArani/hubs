@@ -15,7 +15,7 @@ import {
 } from "./utils/ita";
 import { detectIdle } from "./utils/idle-detector";
 import { connectToReticulum } from "hubs/src/utils/phoenix-utils";
-import { Admin, Layout, Resource, Notification } from "react-admin";
+import { Admin, Layout, Resource, Notification, defaultTheme } from "react-admin";
 import { postgrestClient, postgrestAuthenticatior } from "./utils/postgrest-data-provider";
 import { AdminMenu } from "./react-components/admin-menu";
 import { SceneList, SceneEdit } from "./react-components/scenes";
@@ -34,11 +34,10 @@ import { ContentCDN } from "./react-components/content-cdn";
 import { ImportContent } from "./react-components/import-content";
 import { AutoEndSessionDialog } from "./react-components/auto-end-session-dialog";
 import registerTelemetry from "hubs/src/telemetry";
-import { createTheme, withStyles } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import { UnauthorizedPage } from "./react-components/unauthorized";
 import { store } from "hubs/src/utils/store-instance";
 import { HiddenAppBar, AdminSidebar } from "./react-components/admin-chrome";
-import { adminTheme } from "./admin-theme";
 
 const qs = new URLSearchParams(location.hash.split("?")[1]);
 

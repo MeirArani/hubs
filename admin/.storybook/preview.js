@@ -1,70 +1,10 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { ThemeProvider } from "@material-ui/core/styles";
 import { Provider } from "react-redux";
 import mockStore from "./mocks/store.js";
 import "../src/styles/globals.scss";
 import { adminTheme } from "../src/admin-theme";
-=======
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import { Provider } from "react-redux";
-import mockStore from "./mocks/store.js";
-import "../src/styles/globals.scss";
-
-// Admin theme matching the one in admin.js
-const adminTheme = createTheme({
-  components: {
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: "#222222",
-          minHeight: "100vh",
-          position: "sticky",
-          top: 0,
-          overflowX: "hidden"
-        }
-      }
-    },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          position: "sticky",
-          top: 0,
-          zIndex: 1100
-        }
-      }
-    }
-  },
-  palette: {
-    primary: {
-      main: "#1700c7"
-    },
-    secondary: {
-      main: "#000000"
-    }
-  },
-  typography: {
-    fontFamily: "Inter,Arial"
-  }
-});
->>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
-=======
-import { ThemeProvider } from "@material-ui/core/styles";
-import { Provider } from "react-redux";
-import mockStore from "./mocks/store.js";
-import "../src/styles/globals.scss";
-import { adminTheme } from "../src/admin-theme";
->>>>>>> 2a74ccd2e (review feedback)
-=======
-import { ThemeProvider } from "@material-ui/core/styles";
-import { Provider } from "react-redux";
-import mockStore from "./mocks/store.js";
-import "../src/styles/globals.scss";
-import { adminTheme } from "../src/admin-theme";
->>>>>>> 2a74ccd2e (review feedback)
 
 // Simple messages for preview
 const messages = {
@@ -81,23 +21,8 @@ const AdminLayout = ({ children }) => {
     <Provider store={mockStore}>
       <IntlProvider locale="en" messages={messages}>
         <ThemeProvider theme={adminTheme}>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
           <div className="global_background" style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
             <main style={{ minHeight: "100vh" }}>{children}</main>
-=======
-          <div style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
-            {children}
->>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
-=======
-          <div className="global_background" style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
-            <main style={{ minHeight: "100vh" }}>{children}</main>
->>>>>>> 2a74ccd2e (review feedback)
-=======
-          <div className="global_background" style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
-            <main style={{ minHeight: "100vh" }}>{children}</main>
->>>>>>> 2a74ccd2e (review feedback)
           </div>
         </ThemeProvider>
       </IntlProvider>
@@ -106,7 +31,7 @@ const AdminLayout = ({ children }) => {
 };
 
 export const decorators = [
-  (Story) => (
+  Story => (
     <AdminLayout>
       <Story />
     </AdminLayout>
