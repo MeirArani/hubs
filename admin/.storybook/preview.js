@@ -2,6 +2,7 @@ import React from "react";
 import { IntlProvider } from "react-intl";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { ThemeProvider } from "@material-ui/core/styles";
 import { Provider } from "react-redux";
 import mockStore from "./mocks/store.js";
@@ -57,6 +58,13 @@ import mockStore from "./mocks/store.js";
 import "../src/styles/globals.scss";
 import { adminTheme } from "../src/admin-theme";
 >>>>>>> 2a74ccd2e (review feedback)
+=======
+import { ThemeProvider } from "@material-ui/core/styles";
+import { Provider } from "react-redux";
+import mockStore from "./mocks/store.js";
+import "../src/styles/globals.scss";
+import { adminTheme } from "../src/admin-theme";
+>>>>>>> 2a74ccd2e (review feedback)
 
 // Simple messages for preview
 const messages = {
@@ -75,12 +83,17 @@ const AdminLayout = ({ children }) => {
         <ThemeProvider theme={adminTheme}>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <div className="global_background" style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
             <main style={{ minHeight: "100vh" }}>{children}</main>
 =======
           <div style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
             {children}
 >>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
+=======
+          <div className="global_background" style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
+            <main style={{ minHeight: "100vh" }}>{children}</main>
+>>>>>>> 2a74ccd2e (review feedback)
 =======
           <div className="global_background" style={{ fontFamily: "Inter,Arial", margin: 0, padding: 0 }}>
             <main style={{ minHeight: "100vh" }}>{children}</main>

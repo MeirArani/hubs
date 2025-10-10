@@ -1,9 +1,13 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react"; // Required by eslint react/react-in-jsx-scope
 =======
 import React from "react";
 >>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
+=======
+import React from "react"; // Required by eslint react/react-in-jsx-scope
+>>>>>>> 2a74ccd2e (review feedback)
 =======
 import React from "react"; // Required by eslint react/react-in-jsx-scope
 >>>>>>> 2a74ccd2e (review feedback)
@@ -22,12 +26,17 @@ export const HiddenAppBar = withStyles({
 })(props => {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   const { classes, className, ...appBarProps } = props;
   return <AppBar {...appBarProps} className={classNames(classes.hideOnDesktop, className)} />;
 =======
   const { classes, ...other } = props;
   return <AppBar {...other} className={classes.hideOnDesktop} />;
 >>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
+=======
+  const { classes, className, ...appBarProps } = props;
+  return <AppBar {...appBarProps} className={classNames(classes.hideOnDesktop, className)} />;
+>>>>>>> 2a74ccd2e (review feedback)
 =======
   const { classes, className, ...appBarProps } = props;
   return <AppBar {...appBarProps} className={classNames(classes.hideOnDesktop, className)} />;
@@ -57,6 +66,9 @@ export const AdminSidebar = withStyles({
 })(props => {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2a74ccd2e (review feedback)
   const { classes, className, children, ...sidebarProps } = props;
   return (
     <Sidebar {...sidebarProps} className={classNames("adminSidebar", className)}>
@@ -64,6 +76,7 @@ export const AdminSidebar = withStyles({
         <KeyboardArrowUpIcon />
       </div>
       {children}
+<<<<<<< HEAD
 =======
   const { classes, ...other } = props;
 =======
@@ -79,6 +92,8 @@ export const AdminSidebar = withStyles({
 >>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
 =======
       {children}
+>>>>>>> 2a74ccd2e (review feedback)
+=======
 >>>>>>> 2a74ccd2e (review feedback)
       <div
         className={classNames(

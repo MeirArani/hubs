@@ -34,7 +34,10 @@ import { ContentCDN } from "./react-components/content-cdn";
 import { ImportContent } from "./react-components/import-content";
 import { AutoEndSessionDialog } from "./react-components/auto-end-session-dialog";
 import registerTelemetry from "hubs/src/telemetry";
+<<<<<<< HEAD
 import { createTheme, withStyles } from "@material-ui/core/styles";
+=======
+>>>>>>> 2a74ccd2e (review feedback)
 import { UnauthorizedPage } from "./react-components/unauthorized";
 import { store } from "hubs/src/utils/store-instance";
 import { HiddenAppBar, AdminSidebar } from "./react-components/admin-chrome";
@@ -73,6 +76,7 @@ const CustomNotification = props => {
 
 let itaSchemas;
 
+<<<<<<< HEAD
 const theme = createTheme({
   overrides: {
     MuiDrawer: {
@@ -94,6 +98,9 @@ const theme = createTheme({
     fontFamily: "Inter,Arial"
   }
 });
+=======
+const theme = adminTheme;
+>>>>>>> 2a74ccd2e (review feedback)
 
 class AdminUI extends Component {
   static propTypes = {
