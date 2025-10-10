@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react"; // Required by eslint react/react-in-jsx-scope
 =======
 import React from "react";
 >>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
+=======
+import React from "react"; // Required by eslint react/react-in-jsx-scope
+>>>>>>> 2a74ccd2e (review feedback)
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -17,12 +21,17 @@ export const HiddenAppBar = withStyles({
   }
 })(props => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const { classes, className, ...appBarProps } = props;
   return <AppBar {...appBarProps} className={classNames(classes.hideOnDesktop, className)} />;
 =======
   const { classes, ...other } = props;
   return <AppBar {...other} className={classes.hideOnDesktop} />;
 >>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
+=======
+  const { classes, className, ...appBarProps } = props;
+  return <AppBar {...appBarProps} className={classNames(classes.hideOnDesktop, className)} />;
+>>>>>>> 2a74ccd2e (review feedback)
 });
 
 export const AdminSidebar = withStyles({
@@ -47,6 +56,7 @@ export const AdminSidebar = withStyles({
   }
 })(props => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const { classes, className, children, ...sidebarProps } = props;
   return (
     <Sidebar {...sidebarProps} className={classNames("adminSidebar", className)}>
@@ -56,13 +66,20 @@ export const AdminSidebar = withStyles({
       {children}
 =======
   const { classes, ...other } = props;
+=======
+  const { classes, className, children, ...sidebarProps } = props;
+>>>>>>> 2a74ccd2e (review feedback)
   return (
-    <Sidebar className="adminSidebar">
+    <Sidebar {...sidebarProps} className={classNames("adminSidebar", className)}>
       <div className={classNames("adminSidebarTopIndicator", classes.sidebarScrollingIndicator, classes.topIndicator)}>
         <KeyboardArrowUpIcon />
       </div>
+<<<<<<< HEAD
       {other.children}
 >>>>>>> 27cc4dc67 (Add admin storybook. Bump to latest storybook. Eliminate deviations from production scenario so storybook is a closer match. Decompose chrome into a separate file.)
+=======
+      {children}
+>>>>>>> 2a74ccd2e (review feedback)
       <div
         className={classNames(
           "adminSidebarBottomIndicator",
