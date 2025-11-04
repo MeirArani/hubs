@@ -24,6 +24,7 @@ import "./super-spawner";
 import "./water";
 import "./simple-water";
 import "./trigger-volume";
+import "./global-mic";
 import "./video-pause-state";
 import "./particle-emitter";
 import "./audio-zone";
@@ -31,3 +32,8 @@ import "./audio-zone-source";
 import "./troika-text";
 import "./frustrum";
 import "./inject-main-camera-here";
+
+import "./jump";
+import "./animation-model";
+import "./event";
+import "./interact-trigger";

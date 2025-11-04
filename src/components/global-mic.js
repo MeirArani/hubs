@@ -2,25 +2,10 @@ const sizeVec = new THREE.Vector3();
 const boundingBoxWorldPositionVec = new THREE.Vector3();
 const colliderWorldPositionVec = new THREE.Vector3();
 
-AFRAME.registerComponent("trigger-volume", {
+AFRAME.registerComponent("global-mic", {
   schema: {
     colliders: { type: "selectorAll" },
-    size: { type: "vec3", default: { x: 1, y: 1, z: 1 } },
-    target: { type: "selector" },
-    enterComponent: { type: "string" },
-    enterProperty: { type: "string" },
-    enterValue: {
-      default: "",
-      parse: v => (typeof v === "object" ? v : JSON.parse(v)),
-      stringify: JSON.stringify
-    },
-    leaveComponent: { type: "string" },
-    leaveProperty: { type: "string" },
-    leaveValue: {
-      default: "",
-      parse: v => (typeof v === "object" ? v : JSON.parse(v)),
-      stringify: JSON.stringify
-    }
+    size: { type: "vec3", default: { x: 1, y: 1, z: 1 } }
   },
   init() {
     this.boundingBox = new THREE.Box3();
@@ -46,10 +31,8 @@ AFRAME.registerComponent("trigger-volume", {
 
       if (isColliding && !collidingLastFrame) {
         collider.object3D.el.emit("global-mic-changed", { global: true });
-        this.data.target.setAttribute(this.data.enterComponent, this.data.enterProperty, this.data.enterValue);
       } else if (!isColliding && collidingLastFrame) {
         collider.object3D.el.emit("global-mic-changed", { global: false });
-        this.data.target.setAttribute(this.data.leaveComponent, this.data.leaveProperty, this.data.leaveValue);
       }
 
       this.collidingLastFrame[object3D.id] = isColliding;

@@ -7,6 +7,8 @@ import { createHeadlessModelForSkinnedMesh } from "../utils/three-utils";
 import { Layers } from "../camera-layers";
 import { addComponent, removeComponent } from "bitecs";
 import { LocalAvatar, RemoteAvatar } from "../bit-components";
+import { GlobalDefaults } from "../components/audio-params";
+import { updateAudioSettings } from "../update-audio-settings";
 
 function ensureAvatarNodes(json) {
   const { nodes } = json;
@@ -38,7 +40,8 @@ AFRAME.registerComponent("player-info", {
     avatarSrc: { type: "string" },
     avatarType: { type: "string", default: AVATAR_TYPES.SKINNABLE },
     muted: { default: false },
-    isSharingAvatarCamera: { default: false }
+    isSharingAvatarCamera: { default: false },
+    globalMic: { default: false }
   },
   init() {
     this.applyProperties = this.applyProperties.bind(this);
@@ -48,6 +51,7 @@ AFRAME.registerComponent("player-info", {
     this.onPresenceUpdated = this.onPresenceUpdated.bind(this);
     this.onMicStateChanged = this.onMicStateChanged.bind(this);
     this.onAvatarModelLoaded = this.onAvatarModelLoaded.bind(this);
+    this.onGlobalMicStateChanged = this.onGlobalMicStateChanged.bind(this);
 
     this.isLocalPlayerInfo = this.el.id === "avatar-rig";
     this.playerSessionId = null;
@@ -116,6 +120,8 @@ AFRAME.registerComponent("player-info", {
     if (this.isLocalPlayerInfo) {
       APP.dialog.on("mic-state-changed", this.onMicStateChanged);
     }
+
+    this.el.addEventListener("global-mic-changed", this.onGlobalMicStateChanged);
   },
 
   pause() {
@@ -152,6 +158,17 @@ AFRAME.registerComponent("player-info", {
     if (this.data.muted !== oldData.muted) {
       this.el.emit("remote_mute_updated", { muted: this.data.muted });
     }
+
+    if (!this.isLocalPlayerInfo && this.data.globalMic !== oldData.globalMic) {
+      const avatarEl = this.el.querySelector("[avatar-audio-source]");
+      if (avatarEl) {
+        const audio = avatarEl.getObject3D("avatar-audio-source");
+        console.log(`Setting player ${avatarEl.eid} mic to ${this.data.globalMic ? "global" : "local"}!`);
+        this.data.globalMic ? APP.audioOverrides.set(avatarEl, GlobalDefaults) : APP.audioOverrides.delete(avatarEl);
+        updateAudioSettings(avatarEl, audio);
+      }
+    }
+
     this.applyProperties();
   },
 
@@ -206,5 +223,10 @@ AFRAME.registerComponent("player-info", {
 
   onMicStateChanged({ enabled }) {
     this.el.setAttribute("player-info", { muted: !enabled });
+  },
+
+  onGlobalMicStateChanged({ detail: { global } }) {
+    console.log(`New global mic state on ${this.el}: ${global}`);
+    this.el.setAttribute("player-info", { globalMic: global });
   }
 });

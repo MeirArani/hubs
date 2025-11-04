@@ -396,6 +396,16 @@ AFRAME.GLTFModelPlus.registerComponent(
   }
 );
 
+AFRAME.GLTFModelPlus.registerComponent("global-mic", "global-mic", (el, componentName, componentData) => {
+  const { size } = componentData;
+
+  // Filter out scope and colliders properties.
+  el.setAttribute("global-mic", {
+    colliders: "#avatar-pov-node",
+    size
+  });
+});
+
 AFRAME.GLTFModelPlus.registerComponent("heightfield", "heightfield", (el, componentName, componentData) => {
   el.setAttribute("shape-helper__heightfield", {
     type: SHAPE.HEIGHTFIELD,
@@ -598,3 +608,5 @@ AFRAME.GLTFModelPlus.registerComponent("reflection-probe", "reflection-probe", (
 
   el.setAttribute(componentName, componentData);
 });
+
+AFRAME.GLTFModelPlus.registerComponent("jump", "jump");

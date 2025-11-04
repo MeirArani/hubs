@@ -68,6 +68,19 @@ export const AvatarAudioDefaults: AudioSettings = {
   gain: 1.0
 };
 
+export const GlobalDefaults: AudioSettings = {
+  audioType: AudioType.PannerNode,
+  distanceModel: DistanceModelType.Inverse,
+  panningModel: PanningModelType.EqualPower,
+  maxDistance: 1,
+  refDistance: 1,
+  rolloffFactor: 0,
+  coneInnerAngle: 0,
+  coneOuterAngle: 0,
+  coneOuterGain: 1.0,
+  gain: 1.0
+};
+
 export const MediaAudioDefaults: AudioSettings = {
   audioType: AudioType.PannerNode,
   distanceModel: DistanceModelType.Inverse,
