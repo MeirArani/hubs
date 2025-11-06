@@ -35,5 +35,4 @@ import "./inject-main-camera-here";
 
 import "./jump";
 import "./animation-model";
-import "./event";
 import "./interact-trigger";
