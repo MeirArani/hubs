@@ -118,7 +118,7 @@
     "path-browserify": "^1.0.1",
     "pdfjs-dist": "4.1.392",
     "phoenix": "github:gfodor/phoenix-js#master",
-    "postprocessing": "^6.28.7",
+    "postprocessing": "~6.34.3",
     "prop-types": "^15.7.2",
     "raven-js": "^3.20.1",
     "react": "^18.2.0",
