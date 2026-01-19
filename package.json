@@ -148,7 +148,7 @@
     "url": "^0.11.1",
     "use-clipboard-copy": "^0.2.0",
     "uuid": "^3.2.1",
-    "webrtc-adapter": "^7.7.0",
+    "webrtc-adapter": "^8.2.4",
     "webxr-polyfill": "^2.0.3",
     "zip-loader": "^1.1.0"
   },
