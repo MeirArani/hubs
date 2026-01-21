@@ -1,0 +1,10 @@
+packages:
+  - "admin"
+
+allowBuilds:
+  bitecs: true
+  phoenix: true
+  "@meir_arani/three": true
+
+nodeLinker: hoisted
+hoistWorkspacePackages: false

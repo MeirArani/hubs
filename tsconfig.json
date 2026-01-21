@@ -18,8 +18,8 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "skipLibCheck": true
+    // "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": ["types/", "src/"]
 }
