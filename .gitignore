@@ -61,10 +61,6 @@ typings/
 dist/
 dist-types/
 
-# local storybook files
-storybook-static/
-admin/storybook-static/
-
 .DS_Store
 
 certs/

@@ -25,12 +25,6 @@ const DEFAULT_COLORS = {
 const config = (() => {
   let config = process.env.APP_CONFIG;
 
-  // Storybook includes environment variables as a string
-  // https://storybook.js.org/docs/react/configure/environment-variables
-  if (!config && process.env.STORYBOOK_APP_CONFIG) {
-    config = JSON.parse(process.env.STORYBOOK_APP_CONFIG);
-  }
-
   if (!config) {
     config = window.APP_CONFIG;
   }
