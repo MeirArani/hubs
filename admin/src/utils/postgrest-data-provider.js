@@ -270,7 +270,7 @@ const setAuthToken = function (token) {
   currentAuthToken = token;
 };
 
-export const refreshPermsToken = function () {
+const refreshPermsToken = function () {
   return new Promise((resolve, reject) => {
     retPhxChannel
       .push("refresh_perms_token")

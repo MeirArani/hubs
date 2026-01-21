@@ -13,7 +13,6 @@ const schemaCategories = [
   "links",
   "auth"
 ];
-const serviceNames = configs.CONFIGURABLE_SERVICES.split(",");
 let currentAuthToken = null;
 
 const setAuthToken = function (token) {
@@ -226,7 +225,6 @@ const schemaByCategories = schema => {
 
 export {
   schemaCategories,
-  serviceNames,
   isDescriptor,
   getServiceDisplayName,
   getCategoryDisplayName,

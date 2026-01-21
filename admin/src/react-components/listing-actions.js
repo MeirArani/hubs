@@ -1,6 +1,6 @@
 import { UPDATE } from "react-admin";
 
-export const LISTING_FEATURE = "LISTING_FEATURE";
+const LISTING_FEATURE = "LISTING_FEATURE";
 export const listingFeature = (resource, id, listing) => ({
   type: LISTING_FEATURE,
   payload: {
@@ -12,7 +12,7 @@ export const listingFeature = (resource, id, listing) => ({
   meta: { fetch: UPDATE, resource, refresh: true }
 });
 
-export const LISTING_UNFEATURE = "LISTING_UNFEATURE";
+const LISTING_UNFEATURE = "LISTING_UNFEATURE";
 export const listingUnfeature = (resource, id, listing) => ({
   type: LISTING_UNFEATURE,
   payload: {

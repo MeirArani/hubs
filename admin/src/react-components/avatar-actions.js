@@ -5,7 +5,7 @@ function randomString(len) {
   return [...Array(len)].reduce(a => a + p[~~(Math.random() * p.length)], "");
 }
 
-export const AVATAR_APPROVE_NEW = "AVATAR_APPROVE_NEW";
+const AVATAR_APPROVE_NEW = "AVATAR_APPROVE_NEW";
 export const avatarApproveNew = avatar => ({
   type: AVATAR_APPROVE_NEW,
   payload: {
@@ -38,7 +38,7 @@ export const avatarApproveNew = avatar => ({
   meta: { fetch: CREATE, resource: "avatar_listings" }
 });
 
-export const AVATAR_APPROVE_EXISTING = "AVATAR_APPROVE_EXISTING";
+const AVATAR_APPROVE_EXISTING = "AVATAR_APPROVE_EXISTING";
 export const avatarApproveExisting = avatar => ({
   type: AVATAR_APPROVE_EXISTING,
   payload: {
@@ -65,7 +65,7 @@ export const avatarApproveExisting = avatar => ({
   meta: { fetch: UPDATE, resource: "avatar_listings" }
 });
 
-export const AVATAR_REVIEWED = "AVATAR_REVIEWED";
+const AVATAR_REVIEWED = "AVATAR_REVIEWED";
 export const avatarReviewed = id => ({
   type: AVATAR_REVIEWED,
   payload: {
