@@ -6,6 +6,7 @@
 ARG NODE_VERSION=22.21.1
 
 FROM node:${NODE_VERSION} as builder
+ENV NODE_ENV=production
 COPY files/conditional-npm-ci /usr/local/bin/conditional-npm-ci
 RUN mkdir -p /hubs/admin/ && cd /hubs
 COPY package.json ./

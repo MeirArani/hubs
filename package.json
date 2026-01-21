@@ -243,9 +243,7 @@
     "fsevents": "^2.2.1"
   },
   "overrides": {
-    "phantomjs-prebuilt": {
-      ".": " "
-    }
+
   },
   "packageManager": "yarn@4.12.0"
 }
