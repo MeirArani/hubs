@@ -17,7 +17,7 @@ AFRAME.registerComponent("global-mic", {
     this.boundingBox.setFromCenterAndSize(boundingBoxWorldPositionVec, sizeVec);
   },
   tick() {
-    if (!this.data.target) return;
+    // if (!this.data.target) return;
 
     const colliders = this.data.colliders;
 
