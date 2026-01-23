@@ -198,7 +198,7 @@ module.exports = (env, argv) => {
         },
         {
           // We use babel to handle typescript so that features are correctly polyfilled for our targeted browsers. It also ends up being
-          // a good deeal faster since it just strips out types. It does NOT typecheck. Typechecking is only done at build and (ideally) in your editor.
+          // a good deal faster since it just strips out types. It does NOT typecheck. Typechecking is only done at build and (ideally) in your editor.
           test: /\.tsx?$/,
           loader: "babel-loader",
           options: require("../babel.config"),

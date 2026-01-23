@@ -5,9 +5,7 @@ function randomString(len) {
   return [...Array(len)].reduce(a => a + p[~~(Math.random() * p.length)], "");
 }
 
-const SCENE_APPROVE_NEW = "SCENE_APPROVE_NEW";
 export const sceneApproveNew = scene => ({
-  type: SCENE_APPROVE_NEW,
   payload: {
     data: {
       scene_listing_sid: randomString(7),
@@ -29,9 +27,7 @@ export const sceneApproveNew = scene => ({
   meta: { fetch: CREATE, resource: "scene_listings" }
 });
 
-const SCENE_APPROVE_EXISTING = "SCENE_APPROVE_EXISTING";
 export const sceneApproveExisting = scene => ({
-  type: SCENE_APPROVE_EXISTING,
   payload: {
     id: scene.scene_listing_id,
     data: {
@@ -47,9 +43,7 @@ export const sceneApproveExisting = scene => ({
   meta: { fetch: UPDATE, resource: "scene_listings" }
 });
 
-const SCENE_REVIEWED = "SCENE_REVIEWED";
 export const sceneReviewed = id => ({
-  type: SCENE_REVIEWED,
   payload: {
     id,
     data: { reviewed_at: new Date() }

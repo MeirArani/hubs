@@ -15,8 +15,8 @@ import {
 } from "./utils/ita";
 import { detectIdle } from "./utils/idle-detector";
 import { connectToReticulum } from "hubs/src/utils/phoenix-utils";
-import { Admin, Layout, Resource, Notification } from "react-admin";
-import { postgrestClient, postgrestAuthenticatior } from "./utils/postgrest-data-provider";
+import { Admin, Layout, Resource, Notification, CustomRoutes } from "react-admin";
+import { postgrestClient } from "./utils/postgrest-data-provider";
 import { AdminMenu } from "./react-components/admin-menu";
 import { SceneList, SceneEdit } from "./react-components/scenes";
 import { SceneListingList, SceneListingEdit } from "./react-components/scene-listings";
@@ -118,7 +118,7 @@ class AdminUI extends Component {
             <Admin
               dashboard={SystemEditor}
               appLayout={this.props.layout}
-              customRoutes={this.props.customRoutes}
+              //customRoutes={this.props.customRoutes}
               dataProvider={this.props.dataProvider}
               authProvider={this.props.authProvider}
               loginPage={false}
@@ -126,6 +126,7 @@ class AdminUI extends Component {
               theme={theme}
               notification={CustomNotification}
             >
+              <CustomRoutes>{this.props.customRoutes}</CustomRoutes>
               <Resource name="pending_scenes" list={PendingSceneList} />
               <Resource
                 name="scene_listings"
@@ -182,6 +183,7 @@ class AdminUI extends Component {
 
 import { IntlProvider } from "react-intl";
 import { lang, messages } from "./utils/i18n";
+import { newPostgrestAuthProvider } from "./utils/postgrest-auth-provider";
 
 const mountUI = async (retPhxChannel, customRoutes, layout) => {
   let dataProvider;
@@ -194,16 +196,16 @@ const mountUI = async (retPhxChannel, customRoutes, layout) => {
 
   if (configs.POSTGREST_SERVER) {
     dataProvider = postgrestClient(configs.POSTGREST_SERVER);
-    authProvider = postgrestAuthenticatior.createAuthProvider(retPhxChannel);
-    await postgrestAuthenticatior.refreshPermsToken();
+    authProvider = newPostgrestAuthProvider;
+    await authProvider.refreshPermsToken(retPhxChannel);
 
     // Refresh perms regularly
-    permsTokenRefreshInterval = setInterval(() => postgrestAuthenticatior.refreshPermsToken(), 60000);
+    permsTokenRefreshInterval = setInterval(() => authProvider.refreshPermsToken(retPhxChannel), 60000);
   } else {
     const server = configs.RETICULUM_SERVER || document.location.host;
     dataProvider = postgrestClient("//" + server + "/api/postgrest");
-    authProvider = postgrestAuthenticatior.createAuthProvider();
-    postgrestAuthenticatior.setAuthToken(store.state.credentials.token);
+    authProvider = newPostgrestAuthProvider;
+    newPostgrestAuthProvider.setAuthToken(store.state.credentials.token);
   }
 
   window.APP.dataProvider = dataProvider;
