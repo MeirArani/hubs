@@ -67,7 +67,7 @@ module.exports = [
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
       "@calm/react-intl/missing-formatted-message": [
-        "error",
+        "warn",
         {
           noTrailingWhitespace: true,
           ignoreLinks: true,

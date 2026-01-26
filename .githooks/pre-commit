@@ -36,7 +36,7 @@ EOF
 fi
 
 # lints changed JavaScript and TypeScript
-changed_js=$(git diff-index --cached --name-only $against | grep -E "(.*\.(js|mjs|ts|mts)|scripts/.*\.(js|mjs|ts|mts)|src/.*\.(js|mjs|ts|mts)|test/.*\.(js|mjs|ts|mts)|admin/.*\.(js|mjs|ts|mts)|admin/src/.*\.(js|mjs|ts|mts))$")
+changed_js=$(git diff-index --cached --name-only --diff-filter=d $against | grep -E "(.*\.(js|mjs|ts|mts)|scripts/.*\.(js|mjs|ts|mts)|src/.*\.(js|mjs|ts|mts)|test/.*\.(js|mjs|ts|mts)|admin/.*\.(js|mjs|ts|mts)|admin/src/.*\.(js|mjs|ts|mts))$")
 # /dev/null prevents eslint from checking everything
 echo $changed_js
 ./node_modules/.bin/eslint ${changed_js:-/dev/null}
