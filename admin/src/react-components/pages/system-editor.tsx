@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from "@mui/styles/withStyles";
 import { fetchReticulumAuthenticated } from "hubs/src/utils/phoenix-utils";
 import withCommonStyles from "../../utils/with-common-styles";
 import { getAdminInfo, getEditableConfig } from "../../utils/ita";
@@ -332,7 +332,12 @@ const SystemEditorComponent = ({ classes }) => {
               ask questions
             </a>{" "}
             or{" "}
-            <a className="link" href="https://github.com/Hubs-Foundation/hubs" target="_blank" rel="noopener noreferrer">
+            <a
+              className="link"
+              href="https://github.com/Hubs-Foundation/hubs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               file an issue
             </a>{" "}
             on GitHub.
@@ -341,7 +346,12 @@ const SystemEditorComponent = ({ classes }) => {
       </Card>
 
       <div className="flex-align-items-center ml-12">
-        <a href="https://demo.hubsfoundation.org/whats-new" target="_blank" rel="noopener noreferrer" className="link mr-24">
+        <a
+          href="https://demo.hubsfoundation.org/whats-new"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link mr-24"
+        >
           What's new
         </a>
         {!configs.IS_LOCAL_OR_CUSTOM_CLIENT && (
@@ -355,7 +365,12 @@ const SystemEditorComponent = ({ classes }) => {
           <p>{`Undeploy custom client to run build ${process.env.BUILD_VERSION || "?"}`}</p>
           <p>
             Remember to regularly pull in upstream changes from the "hubs-cloud" branch:{" "}
-            <a href="https://github.com/Hubs-Foundation/hubs" target="_blank" rel="noopener noreferrer" className="link">
+            <a
+              href="https://github.com/Hubs-Foundation/hubs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link"
+            >
               Github
             </a>
           </p>

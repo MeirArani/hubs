@@ -1,27 +1,23 @@
 /* eslint-disable @calm/react-intl/missing-formatted-message*/
-import React, { Component } from "react";
+import React, { useUpdate } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { sceneReviewed } from "./scene-actions";
 import { avatarReviewed } from "./avatar-actions";
 
-class DenyButton extends Component {
-  handleClick = () => {
-    const { reviewed, record } = this.props;
-    reviewed(record.id);
-  };
+function DenyButton({ reviewed, record }) {
+  const [update] = useUpdate();
+  if (!(record.allow_promotion || record._allow_promotion)) return false;
 
-  render() {
-    const { record } = this.props;
-    if (!(record.allow_promotion || record._allow_promotion)) return false;
-
-    return (
-      <Button label="Deny" onClick={this.handleClick}>
-        Deny
-      </Button>
-    );
-  }
+  const { payload, meta } = reviewed(record.id);
+  return (
+    <Button
+      label="Deny"
+      onClick={() => update(meta.resource, { id: payload.id, data: payload.data, previousData: record, meta: meta })}
+    >
+      Deny
+    </Button>
+  );
 }
 
 DenyButton.propTypes = {
@@ -29,6 +25,5 @@ DenyButton.propTypes = {
   record: PropTypes.object
 };
 
-export const DenySceneButton = connect(null, { reviewed: sceneReviewed })(DenyButton);
-
-export const DenyAvatarButton = connect(null, { reviewed: avatarReviewed })(DenyButton);
+export const DenySceneButton = <DenyButton reviewed={sceneReviewed} />;
+export const DenyAvatarButton = <DenyButton reviewed={avatarReviewed} />;

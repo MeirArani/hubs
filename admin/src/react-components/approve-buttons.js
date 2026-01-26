@@ -2,7 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { sceneApproveNew, sceneApproveExisting, sceneReviewed } from "./scene-actions";
 import { avatarApproveNew, avatarApproveExisting, avatarReviewed } from "./avatar-actions";
 import { useCreate, useUpdate } from "react-admin";
@@ -43,19 +43,6 @@ ApproveButton.propTypes = {
   record: PropTypes.object
 };
 
-// const withStaticProps = staticProps => (stateProps, dispatchProps, ownProps) => ({
-//   ...ownProps,
-//   ...stateProps,
-//   ...dispatchProps,
-//   ...staticProps
-// });
-
-// export const ApproveSceneButton = connect(
-//   null,
-//   { approveNew: sceneApproveNew, approveExisting: sceneApproveExisting, reviewed: sceneReviewed },
-//   withStaticProps({ resource: "scene" })
-// )(ApproveButton);
-
 export const ApproveSceneButton = (
   <ApproveButton
     approveNew={sceneApproveNew}
@@ -64,12 +51,6 @@ export const ApproveSceneButton = (
     resource="scene"
   />
 );
-
-// export const ApproveAvatarButton = connect(
-//   null,
-//   { approveNew: avatarApproveNew, approveExisting: avatarApproveExisting, reviewed: avatarReviewed },
-//   withStaticProps({ resource: "avatar" })
-// )(ApproveButton);
 
 export const ApproveAvatarButton = (
   <ApproveAvatarButton

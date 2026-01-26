@@ -57,7 +57,7 @@
     hasOwnProperty, message, n, name, prototype, push, r, t, text
 */
 
-export default (function () {
+export default ((function() {
   "use strict";
 
   // This is a function that can parse a JSON text, producing a JavaScript
@@ -346,4 +346,4 @@ export default (function () {
         })({ "": result }, "")
       : result;
   };
-})();
+})());

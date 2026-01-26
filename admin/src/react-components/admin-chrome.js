@@ -1,8 +1,8 @@
 import React from "react"; // Required by eslint react/react-in-jsx-scope
 import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import withStyles from "@mui/styles/withStyles";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { AppBar, Sidebar } from "react-admin";
 
 export const HiddenAppBar = withStyles({

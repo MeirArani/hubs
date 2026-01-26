@@ -1,18 +1,17 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable @calm/react-intl/missing-formatted-message*/
 
 import React from "react";
 import { IdentityEditLink, IdentityCreateLink } from "./fields";
 import { AccountEditToolbar } from "./account-edit-toolbar";
-import { withStyles } from "@material-ui/core/styles";
-// import Card from "@material-ui/core/Card";
-// import CardContent from "@material-ui/core/CardContent";
-// import MuiTextField from "@material-ui/core/TextField";
-// import Button from "@material-ui/core/Button";
-// import Typography from "@material-ui/core/Typography";
-// import CircularProgress from "@material-ui/core/CircularProgress";
-// import Snackbar from "@material-ui/core/Snackbar";
-// import SnackbarContent from "@material-ui/core/SnackbarContent";
+import withStyles from "@mui/styles/withStyles";
+// import Card from "@mui/material/Card";
+// import CardContent from "@mui/material/CardContent";
+// import MuiTextField from "@mui/material/TextField";
+// import Button from "@mui/material/Button";
+// import Typography from "@mui/material/Typography";
+// import CircularProgress from "@mui/material/CircularProgress";
+// import Snackbar from "@mui/material/Snackbar";
+// import SnackbarContent from "@mui/material/SnackbarContent";
 // import { email, useRefresh } from "react-admin";
 // import { useMutation, useQuery } from "@tanstack/react-query";
 import {
