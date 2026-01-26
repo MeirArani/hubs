@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from "react";
+import React, { useEffect, useRef } from "react";
 import classNames from "classnames";
 import inflection from "inflection";
-import { connect } from "react-redux";
-import { getResources } from "react-admin";
-import { withRouter, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import withStyles from "@mui/styles/withStyles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -16,14 +14,7 @@ import BackupIcon from "@mui/icons-material/Backup";
 import ViewIcon from "@mui/icons-material/ViewList";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Collapse from "@mui/material/Collapse";
-import { getServiceDisplayName } from "../utils/ita";
-import configs from "../utils/configs";
-import { hasPaidFeature, isBrandingDisabled } from "../utils/feature_flags";
 import HubsLogo from "../assets/images/hubs_logo.png";
-
-const mapStateToProps = state => ({
-  resources: getResources(state)
-});
 
 const styles = () => ({
   root: {
@@ -86,51 +77,31 @@ function getResourceDisplayName(resource) {
   }
 }
 
-class Menu extends Component {
-  constructor(props) {
-    super(props);
-    this.sidebarScrollArea = null;
-    this.containerRef = React.createRef();
-    this.rafId = null;
-    this.attachAttemptsLeft = 5;
-    this.handleSidebarScrolling = this.handleSidebarScrolling.bind(this);
-  }
+function Menu(props) {
+  const containerRef = useRef(null);
+  const sidebarScrollArea = useRef(null);
+  const rafId = useRef(null);
+  const attachAttemptsLeft = useRef(5);
 
-  renderService(service) {
-    return (
-      <ListItem
-        className={classNames(this.props.classes.item, this.props.classes.nested)}
-        component={NavLink}
-        key={service}
-        to={`/services/${service}`}
-      >
-        <ListItemIcon className={this.props.classes.icon}>
-          <ViewIcon />
-        </ListItemIcon>
-        <ListItemText className={this.props.classes.text} primary={getServiceDisplayName(service)} />
-      </ListItem>
-    );
-  }
-
-  renderResource(resource) {
+  const renderResource = resource => {
     if (!resource.hasList) return null;
 
     const icon = resource.icon ? <resource.icon /> : <ViewIcon />;
     return (
       <ListItem
-        className={classNames(this.props.classes.item, this.props.classes.nested)}
+        className={classNames(props.classes.item, props.classes.nested)}
         component={NavLink}
         key={resource.name}
         to={`/${resource.name}`}
       >
-        {icon && <ListItemIcon className={this.props.classes.icon}>{icon}</ListItemIcon>}
-        <ListItemText className={this.props.classes.text} primary={getResourceDisplayName(resource)} />
+        {icon && <ListItemIcon className={props.classes.icon}>{icon}</ListItemIcon>}
+        <ListItemText className={props.classes.text} primary={getResourceDisplayName(resource)} />
       </ListItem>
     );
-  }
+  };
 
-  handleSidebarScrolling() {
-    const element = this.sidebarScrollArea;
+  const handleSidebarScrolling = () => {
+    const element = sidebarScrollArea.current;
     if (!element) return;
 
     const topIndicator = document.querySelector(".adminSidebar .adminSidebarTopIndicator");
@@ -140,9 +111,9 @@ class Menu extends Component {
 
     if (topIndicator) topIndicator.style.display = element.scrollTop < 22 ? "none" : "flex";
     if (bottomIndicator) bottomIndicator.style.display = elementScrollBottom < 22 ? "none" : "flex";
-  }
+  };
 
-  componentDidMount() {
+  useEffect(() => {
     const getScrollableAncestor = node => {
       let el = node?.parentElement || null;
       while (el) {
@@ -159,260 +130,126 @@ class Menu extends Component {
     // overflow styles until after the first paint. On the initial frame the ancestor walk returns `null`,
     // so we retry a handful of times via rAF to ensure we subscribe once Material-UI finishes mounting.
     const tryAttach = () => {
-      if (this.sidebarScrollArea) return; // already attached
-      const container = this.containerRef.current;
+      if (sidebarScrollArea.current) return; // already attached
+      const container = containerRef.current;
       const el = container ? getScrollableAncestor(container) : null;
       if (el) {
-        this.sidebarScrollArea = el;
-        if (this.sidebarScrollArea.addEventListener) {
-          this.sidebarScrollArea.addEventListener("scroll", this.handleSidebarScrolling, { passive: true });
+        sidebarScrollArea.current = el;
+        if (sidebarScrollArea.current.addEventListener) {
+          sidebarScrollArea.current.addEventListener("scroll", handleSidebarScrolling, { passive: true });
         }
-        this.handleSidebarScrolling();
+        handleSidebarScrolling();
         return;
       }
-      if (this.attachAttemptsLeft > 0) {
-        this.attachAttemptsLeft -= 1;
-        this.rafId = requestAnimationFrame(tryAttach);
+      if (attachAttemptsLeft.current > 0) {
+        attachAttemptsLeft.current -= 1;
+        rafId.current = requestAnimationFrame(tryAttach);
       }
     };
 
-    this.attachAttemptsLeft = 5;
+    attachAttemptsLeft.current = 5;
     tryAttach();
-    window.addEventListener("resize", this.handleSidebarScrolling);
+    window.addEventListener("resize", handleSidebarScrolling);
     // Defer initial compute to ensure layout stabilized
-    this.rafId = requestAnimationFrame(this.handleSidebarScrolling);
-  }
+    rafId.current = requestAnimationFrame(handleSidebarScrolling);
 
-  componentWillUnmount() {
-    if (this.rafId) cancelAnimationFrame(this.rafId);
-    if (this.sidebarScrollArea && this.sidebarScrollArea.removeEventListener) {
-      this.sidebarScrollArea.removeEventListener("scroll", this.handleSidebarScrolling);
-    }
-    window.removeEventListener("resize", this.handleSidebarScrolling);
-  }
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      if (sidebarScrollArea.current && sidebarScrollArea.current.removeEventListener) {
+        sidebarScrollArea.current.removeEventListener("scroll", handleSidebarScrolling);
+      }
+      window.removeEventListener("resize", handleSidebarScrolling);
+    };
+  });
 
-  render() {
-    if (configs.ITA_SERVER == "turkey") {
-      return (
-        <List className={this.props.classes.root} ref={this.containerRef}>
-          <ListItem className={this.props.classes.logo}>
-            <img className={this.props.classes.logo} src={HubsLogo} />
-          </ListItem>
+  return (
+    <List className={props.classes.root} ref={containerRef}>
+      <ListItem className={props.classes.logo}>
+        <img className={props.classes.logo} src={HubsLogo} />
+      </ListItem>
+      <ListItem
+        className={props.classes.item}
+        component={NavLink}
+        activeStyle={{ backgroundColor: "#D0D0D0" }}
+        key="home"
+        to="/home"
+      >
+        <ListItemIcon className={props.classes.icon}>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText className={props.classes.text} primary="Home" />
+      </ListItem>
+      <ListItem className={props.classes.item}>
+        <ListItemIcon className={props.classes.icon}>
+          <LibraryBooksIcon />
+        </ListItemIcon>
+        <ListItemText className={props.classes.text} primary="Content" />
+      </ListItem>
+      <Collapse in={true} timeout="auto" unmountOnExit>
+        <List component="nav" disablePadding>
           <ListItem
-            className={this.props.classes.item}
+            className={classNames(props.classes.item, props.classes.nested)}
             component={NavLink}
-            activeStyle={{ backgroundColor: "#D0D0D0" }}
-            key="home"
-            to="/home"
+            key="import"
+            to="/import"
           >
-            <ListItemIcon className={this.props.classes.icon}>
-              <HomeIcon />
+            <ListItemIcon className={props.classes.icon}>
+              <BackupIcon />
             </ListItemIcon>
-            <ListItemText className={this.props.classes.text} primary="Home" />
+            <ListItemText className={props.classes.text} primary="Import Content" />
           </ListItem>
-          <ListItem className={this.props.classes.item}>
-            <ListItemIcon className={this.props.classes.icon}>
-              <LibraryBooksIcon />
-            </ListItemIcon>
-            <ListItemText className={this.props.classes.text} primary="Content" />
-          </ListItem>
-          <Collapse in={true} timeout="auto" unmountOnExit>
-            <List component="nav" disablePadding>
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="import"
-                to="/import"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <BackupIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="Import Content" />
-              </ListItem>
-              {this.props.resources.map(this.renderResource.bind(this))}
-            </List>
-          </Collapse>
-          <ListItem className={this.props.classes.item}>
-            <ListItemIcon className={this.props.classes.icon}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText className={this.props.classes.text} primary="Setup" />
-          </ListItem>
-          <Collapse in={true} timeout="auto" unmountOnExit>
-            <List component="nav" disablePadding>
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="app-settings"
-                to="/app-settings"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <ViewIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="App Settings" />
-              </ListItem>
-
-              {hasPaidFeature() && !isBrandingDisabled() && (
-                <>
-                  {/* IMAGE SETTING  */}
-                  <ListItem
-                    className={classNames(this.props.classes.item, this.props.classes.nested)}
-                    component={NavLink}
-                    key="brand"
-                    to="/brand"
-                  >
-                    <ListItemIcon className={this.props.classes.icon}>
-                      <ViewIcon />
-                    </ListItemIcon>
-                    <ListItemText className={this.props.classes.text} primary="Brand" />
-                  </ListItem>
-
-                  {/* THEMES  */}
-                  <ListItem
-                    className={classNames(this.props.classes.item, this.props.classes.nested)}
-                    component={NavLink}
-                    key="themes"
-                    to="/themes"
-                  >
-                    <ListItemIcon className={this.props.classes.icon}>
-                      <ViewIcon />
-                    </ListItemIcon>
-                    <ListItemText className={this.props.classes.text} primary="Themes" />
-                  </ListItem>
-                </>
-              )}
-            </List>
-          </Collapse>
+          {props.resources.map(renderResource)}
         </List>
-      );
-    } else {
-      return (
-        <List className={this.props.classes.root} ref={this.containerRef}>
-          <ListItem className={this.props.classes.logo}>
-            <img className={this.props.classes.logo} src={HubsLogo} />
-          </ListItem>
+      </Collapse>
+      <ListItem className={props.classes.item}>
+        <ListItemIcon className={props.classes.icon}>
+          <SettingsIcon />
+        </ListItemIcon>
+        <ListItemText className={props.classes.text} primary="Setup" />
+      </ListItem>
+      <Collapse in={true} timeout="auto" unmountOnExit>
+        <List component="nav" disablePadding>
           <ListItem
-            className={this.props.classes.item}
+            className={classNames(props.classes.item, props.classes.nested)}
             component={NavLink}
-            activeStyle={{ backgroundColor: "#D0D0D0" }}
-            key="home"
-            to="/home"
+            key="app-settings"
+            to="/app-settings"
           >
-            <ListItemIcon className={this.props.classes.icon}>
-              <HomeIcon />
+            <ListItemIcon className={props.classes.icon}>
+              <ViewIcon />
             </ListItemIcon>
-            <ListItemText className={this.props.classes.text} primary="Home" />
+            <ListItemText className={props.classes.text} primary="App Settings" />
           </ListItem>
-          <ListItem className={this.props.classes.item}>
-            <ListItemIcon className={this.props.classes.icon}>
-              <LibraryBooksIcon />
+
+          {/* BRANDING */}
+          <ListItem
+            className={classNames(props.classes.item, props.classes.nested)}
+            component={NavLink}
+            key="brand"
+            to="/brand"
+          >
+            <ListItemIcon className={props.classes.icon}>
+              <ViewIcon />
             </ListItemIcon>
-            <ListItemText className={this.props.classes.text} primary="Content" />
+            <ListItemText className={props.classes.text} primary="Brand" />
           </ListItem>
-          <Collapse in={true} timeout="auto" unmountOnExit>
-            <List component="nav" disablePadding>
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="import"
-                to="/import"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <BackupIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="Import Content" />
-              </ListItem>
-              {this.props.resources.map(this.renderResource.bind(this))}
-            </List>
-          </Collapse>
-          <ListItem className={this.props.classes.item}>
-            <ListItemIcon className={this.props.classes.icon}>
-              <SettingsIcon />
+
+          {/* THEMES  */}
+          <ListItem
+            className={classNames(props.classes.item, props.classes.nested)}
+            component={NavLink}
+            key="themes"
+            to="/themes"
+          >
+            <ListItemIcon className={props.classes.icon}>
+              <ViewIcon />
             </ListItemIcon>
-            <ListItemText className={this.props.classes.text} primary="Setup" />
+            <ListItemText className={props.classes.text} primary="Themes" />
           </ListItem>
-          <Collapse in={true} timeout="auto" unmountOnExit>
-            <List component="nav" disablePadding>
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="app-settings"
-                to="/app-settings"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <ViewIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="App Settings" />
-              </ListItem>
-
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="brand"
-                to="/brand"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <ViewIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="Brand" />
-              </ListItem>
-
-              {/* THEMES  */}
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="themes"
-                to="/themes"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <ViewIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="Themes" />
-              </ListItem>
-
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="server-setup"
-                to="/server-setup"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <ViewIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="Server Settings" />
-              </ListItem>
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="server-access"
-                to="/server-access"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <ViewIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="Server Access" />
-              </ListItem>
-              <ListItem
-                className={classNames(this.props.classes.item, this.props.classes.nested)}
-                component={NavLink}
-                key="content-cdn"
-                to="/content-cdn"
-              >
-                <ListItemIcon className={this.props.classes.icon}>
-                  <ViewIcon />
-                </ListItemIcon>
-                <ListItemText className={this.props.classes.text} primary="Content CDN" />
-              </ListItem>
-            </List>
-          </Collapse>
         </List>
-      );
-    }
-  }
+      </Collapse>
+    </List>
+  );
 }
 
-// export const AdminMenu = withRouter(<Menu
-// resources={getRe}
-// />);
-
-export const AdminMenu = withRouter(connect(mapStateToProps)(withStyles(styles)(Menu)));
+export const AdminMenu = withStyles(styles)(Menu);

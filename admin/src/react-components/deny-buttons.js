@@ -1,10 +1,10 @@
 /* eslint-disable @calm/react-intl/missing-formatted-message*/
-import React, { useUpdate } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { sceneReviewed } from "./scene-actions";
 import { avatarReviewed } from "./avatar-actions";
-
+import { useUpdate } from "react-admin";
 function DenyButton({ reviewed, record }) {
   const [update] = useUpdate();
   if (!(record.allow_promotion || record._allow_promotion)) return false;

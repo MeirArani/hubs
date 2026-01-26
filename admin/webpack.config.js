@@ -125,7 +125,8 @@ module.exports = (env, argv) => {
         buffer: require.resolve("buffer/"),
         // Modern browsers have these APIs natively, no need for polyfills
         stream: false,
-        path: false
+        path: false,
+        "process/browser": require.resolve("process/browser")
       },
       extensions: [".ts", ".tsx", ".js", ".jsx"]
     },

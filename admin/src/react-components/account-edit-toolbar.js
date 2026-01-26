@@ -1,7 +1,7 @@
 /* eslint-disable @calm/react-intl/missing-formatted-message*/
 
 import React, { useState } from "react";
-import { Toolbar, SaveButton } from "react-admin";
+import { Toolbar, SaveButton, useRedirect } from "react-admin";
 import withStyles from "@mui/styles/withStyles";
 import Button from "@mui/material/Button";
 import { Dialog, DialogContent, DialogContentText, DialogActions } from "@mui/material";
@@ -23,6 +23,7 @@ export const AccountEditToolbar = withStyles(accountEditToolbarStyles)(props => 
   const { Confirming, Deleting, Succeeded, Failed } = DeleteStates;
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [deleteState, setDeleteState] = useState(Confirming);
+  const redirect = useRedirect();
 
   const onDeleteAccount = async () => {
     setDeleteState(Deleting);
@@ -84,7 +85,7 @@ export const AccountEditToolbar = withStyles(accountEditToolbarStyles)(props => 
               onClick={() => {
                 setOpenConfirmationDialog(false);
                 if (deleteState === Succeeded) {
-                  props.history.push("/accounts");
+                  redirect("/accounts");
                 }
               }}
             >
